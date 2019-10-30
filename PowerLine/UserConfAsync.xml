@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <!-- x86, x64, or Both -->
+  <Architecture> x64 </Architecture>
+  
+  <Scripts>
+    <!-- Full URLS pointing to PowerShell Scripts on Github, Bitbucket, Your Server, Wherever -->
+
+    <!-- PowerUp -->
+    <Remote>https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Privesc/PowerUp.ps1</Remote>
+
+	<!-- Find-AllVulns -->
+	<Remote>https://raw.githubusercontent.com/rasta-mouse/Sherlock/master/Sherlock.ps1</Remote>
+	
+	<Remote>https://raw.githubusercontent.com/411Hall/JAWS/master/jaws-enum.ps1</Remote>
+	
+	<Remote>https://raw.githubusercontent.com/absolomb/WindowsEnum/master/WindowsEnum.ps1</Remote>
+	   
+	<!--Remote>https://raw.githubusercontent.com/fullmetalcache/tools/master/autokerberoast_nomimi_stripped.ps1</Remote-->
+	<!--Remote>https://raw.githubusercontent.com/fullmetalcache/tools/master/inveigh_stripped.ps1</Remote-->
+	<!--Remote>https://raw.githubusercontent.com/dafthack/DomainPasswordSpray/master/DomainPasswordSpray.ps1</Remote-->
+	
+	<!-- PowerLine.exe Out-Minidump "Get-Process lsass | Out-Minidump" -->
+	<!--Remote>https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Out-Minidump.ps1</Remote-->
+	
+	<!-- PowerView -->
+    <!--Remote>https://raw.githubusercontent.com/PowerShellEmpire/PowerTools/master/PowerView/powerview.ps1</Remote-->
+	
+	
+	<!-- Fully Qualified Path to Your Local Scripts -->
+    <!--Local>C:\PowerLine\PowerLine\LocalScripts\Invoke-Mimikatz.ps1</Local-->
+	
+	<Local>C:\PowerLine\PowerLine\LocalScripts\Help.ps1</Local>
+  	<Local>C:\PowerLine\PowerLine\LocalScripts\AsyncAudit.ps1</Local>
+
+  
+  </Scripts>
+  
+</Project>
+
