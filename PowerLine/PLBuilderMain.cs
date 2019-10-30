@@ -35,8 +35,8 @@ namespace PLBuilder
 
 
         static private XmlTextReader _programConf;
-        static private XmlTextReader _userConf;
         static private string _saveDir;
+        static private string _userConfFile;
         static private List<String> _savedFiles;
         static private List<String> _dictionary;
         static private List<String> _usedWords;
@@ -48,9 +48,16 @@ namespace PLBuilder
             string projectFile = "";
 
             _randGen = new Random();
+            
+            // Test if input arguments were supplied.
+            if (args.Length == 0)
+            {
+                _userConfFile = "UserConf.xml";
+            } else {
+                _userConfFile = args[0];
+            }
 
             _programConf = new XmlTextReader("ProgramConf.xml");
-            _userConf = new XmlTextReader("UserConf.xml");
 
             _programConf.ReadToFollowing("DictionaryFile");
             _programConf.Read();
@@ -205,6 +212,8 @@ namespace PLBuilder
         static List<string> getRemoteScriptList()
         {
             List<string> scripts = new List<string>();
+            
+            XmlTextReader _userConf = new XmlTextReader(_userConfFile);
 
             while (_userConf.ReadToFollowing("Remote"))
             {
@@ -218,6 +227,8 @@ namespace PLBuilder
         static List<string> getLocalScriptList()
         {
             List<string> scripts = new List<string>();
+            
+            XmlTextReader _userConf = new XmlTextReader(_userConfFile);
 
             while (_userConf.ReadToFollowing("Local"))
             {
@@ -288,6 +299,34 @@ namespace PLBuilder
                         fout.WriteLine("\t\t\tFuncs.Add(\"" + Convert.ToBase64String(outModuleName) + "\",\"" + b64XorScript + "\");");
                     }
                 }
+            }
+            
+            foreach (string script in localScripts)
+            {
+                string scriptName = script.Substring(script.LastIndexOf('\\') + 1);
+                Console.WriteLine("\t" + script + "\r\n");
+                
+                byte[] bytes = File.ReadAllBytes (script);
+
+                //XOR "encrypt"
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    bytes[i] ^= dKey;
+                }
+
+                string b64XorScript = Convert.ToBase64String(bytes);
+
+                //Lop off PS1 or other file extension from scriptname
+                Byte[] moduleName = Encoding.UTF8.GetBytes(scriptName.Split('.')[0]);
+                Byte[] outModuleName = new Byte[moduleName.Length];
+
+                for (int i = 0; i < moduleName.Length; i++)
+                {
+                    outModuleName[i] = (byte)(moduleName[i] ^ dKey);
+                }
+
+                fout.WriteLine("\t\t\tFuncs.Add(\"" + Convert.ToBase64String(outModuleName) + "\",\"" + b64XorScript + "\");");
+
             }
 
             for (int i = idx; i < fin.Length; i++)
